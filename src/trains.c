@@ -26,7 +26,11 @@ int main(int argc, char *argv[]) {
   wdg_insert(wdg, 0, 4, 7);
 
   wdg_print(wdg);
+  dijkstra(wdg, 0);
+  dijkstra(wdg, 1);
+  dijkstra(wdg, 2);
+  dijkstra(wdg, 3);
+  dijkstra(wdg, 4);
 
-  free(wdg);
   return 0;
 }

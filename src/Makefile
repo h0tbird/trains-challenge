@@ -2,8 +2,8 @@
 # all:
 #------------------------------------------------------------------------------
 
-all:	trains wdg minheap
-	gcc $(CFLAGS) trains.o wdg.o minheap.o $(LFLAGS) -o ../bin/trains
+all:	trains wdg minheap dijkstra
+	gcc $(CFLAGS) trains.o wdg.o minheap.o dijkstra.o $(LFLAGS) -o ../bin/trains
 	rm -f *.o
 
 #------------------------------------------------------------------------------
@@ -26,6 +26,13 @@ wdg:	wdg.o
 
 minheap:	minheap.o
 	gcc $(CFLAGS) -c minheap.c
+
+#------------------------------------------------------------------------------
+# dijkstra:
+#------------------------------------------------------------------------------
+
+dijkstra:	dijkstra.o
+	gcc $(CFLAGS) -c dijkstra.c
 
 #------------------------------------------------------------------------------
 # clean:
