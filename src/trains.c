@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
   wdg_insert(wdg, 4, 1, 3);
   wdg_insert(wdg, 0, 4, 7);
 
-  int ab, bc, ad, dc, ae, eb, cd, ed;
+  int ab, ac, bb, bc, ad, dc, ae, eb, cd, ed;
 
   // The distance of the route A-B-C:
   if ((ab = dijkstra(wdg, 0, 1)) < 0 || (bc = dijkstra(wdg, 1, 2)) < 0) {
@@ -47,10 +47,20 @@ int main(int argc, char *argv[]) {
     printf("Output #4: NO SUCH ROUTE\n");
   } else printf("Output #4: %d\n", ae + eb + bc + cd);
 
-  // The distance of the route A-E-D:
+  // The distance of the route A-E-D: (FAIL!)
   if (ae < 0 || (ed = dijkstra(wdg, 4, 3)) < 0) {
     printf("Output #5: NO SUCH ROUTE\n");
   } else printf("Output #5: %d\n", ae + ed);
+
+  // The length of the shortest route from A to C:
+  if ((ac = dijkstra(wdg, 0, 2)) < 0) {
+    printf("Output #8: NO SUCH ROUTE\n");
+  } else printf("Output #8: %d\n", ac);
+
+  // The length of the shortest route from B to B: (FAIL!)
+  if ((bb = dijkstra(wdg, 1, 1)) < 0) {
+    printf("Output #9: NO SUCH ROUTE\n");
+  } else printf("Output #9: %d\n", bb);
 
   return 0;
 }
