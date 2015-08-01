@@ -50,12 +50,12 @@ void wdg_print(PWDG wdg) {
 
   int i;
 
-  printf("\nNon-negative weighted directed graph (WDG)\n\n");
+  printf("[DEBUB] Non-negative weighted directed graph (WDG):\n");
 
   for(i=0; i<wdg->count; ++i) {
 
     PNODE node = wdg->list[i].head;
-    printf(" Node %d: head", i);
+    printf("[DEBUG] - Node %d: head", i);
 
     while (node) {
       printf(" -> %d(%d)", node->dst, node->wgt);

@@ -5,27 +5,68 @@
 #include "trains.h"
 
 //-----------------------------------------------------------------------------
+// loadData
+//-----------------------------------------------------------------------------
+
+PWDG loadData(char *file) {
+
+  // AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+  // 015, 124, 238, 328, 346, 035, 242, 413, 047
+
+  FILE *fp;
+  char buf[MAXLINE];
+  char nodes[MAXLINE];
+  int i;
+
+  // Read the data file:
+  if ((fp = fopen(file, "r")) == NULL) MyDBG(end0);
+  if (fgets(buf, MAXLINE, fp) == NULL) MyDBG(end1);
+  fclose(fp);
+
+  #ifdef DEBUG
+  printf("\n[DEBUG] Input data: %s", buf);
+  #endif
+
+  // Count nodes:
+  for (i=0; i<strlen(buf); i++) {
+    if (buf[i] < CAP_A || buf[i] > CAP_Z) continue;
+    if (strchr(nodes, buf[i]) != NULL) continue;
+    strncat(nodes, &buf[i], 1);
+  }
+
+  // Create a new structure:
+  PWDG wdg = wdg_new((int)strlen(nodes));
+
+  // Feed the dirgraph:
+  for (i=0; i<strlen(buf)-3; i++) {
+    if (buf[i] == ',' || buf[i] == ' ') continue;
+    wdg_insert(wdg, buf[i]-65, buf[i+1]-65, buf[i+2]-48);
+    i = i+2;
+  }
+
+  // Return on success:
+  return wdg;
+
+  // Return on error:
+  end1: fclose(fp);
+  end0: return NULL;
+}
+
+//-----------------------------------------------------------------------------
 // Entry point:
 //-----------------------------------------------------------------------------
 
 int main(int argc, char *argv[]) {
 
-  // AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
-  // 015, 124, 238, 328, 346, 035, 242, 413, 047
-
-  PWDG wdg = wdg_new(5);
-
-  wdg_insert(wdg, 0, 1, 5);
-  wdg_insert(wdg, 1, 2, 4);
-  wdg_insert(wdg, 2, 3, 8);
-  wdg_insert(wdg, 3, 2, 8);
-  wdg_insert(wdg, 3, 4, 6);
-  wdg_insert(wdg, 0, 3, 5);
-  wdg_insert(wdg, 2, 4, 2);
-  wdg_insert(wdg, 4, 1, 3);
-  wdg_insert(wdg, 0, 4, 7);
-
+  PWDG wdg;
   int ab, ac, bb, bc, ad, dc, ae, eb, cd, ed;
+
+  // Load data from file:
+  if ((wdg = loadData(argv[1])) == NULL) return 1;
+
+  #ifdef DEBUG
+  wdg_print(wdg);
+  #endif
 
   // The distance of the route A-B-C:
   if ((ab = dijkstra(wdg, 0, 1)) < 0 || (bc = dijkstra(wdg, 1, 2)) < 0) {
