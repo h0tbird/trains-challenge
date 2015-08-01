@@ -19,7 +19,7 @@ void printArr(int dist[], int n, int src) {
 // dijkstra
 //-----------------------------------------------------------------------------
 
-void dijkstra(PWDG graph, int src) {
+int dijkstra(PWDG graph, int src, int dst) {
 
   int V = graph->count;
   int dist[V];
@@ -42,6 +42,7 @@ void dijkstra(PWDG graph, int src) {
 
     pMinHeapNode minHeapNode = extractMin(minHeap);
     int u = minHeapNode->v;
+    if (u == dst) return dist[u];
     PNODE pCrawl = graph->list[u].head;
 
     while (pCrawl != NULL) {
@@ -57,5 +58,5 @@ void dijkstra(PWDG graph, int src) {
     }
   }
 
-  printArr(dist, V, src);
+  return -1;
 }

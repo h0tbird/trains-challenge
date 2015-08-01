@@ -18,7 +18,7 @@
 //-----------------------------------------------------------------------------
 
 void printArr(int dist[], int n, int src);
-void dijkstra(PWDG graph, int src);
+int dijkstra(PWDG graph, int src, int dst);
 
 //-----------------------------------------------------------------------------
 // End of include guard:
