@@ -132,9 +132,13 @@ int main(int argc, char *argv[]) {
     printf("Output #5: NO SUCH ROUTE\n");
   } else printf("Output #5: %d\n", ae + ed);
 
-  //------------------------------------------------------------------
-  // Output #6: # of trips starting and ending at C with 3 stops max.
-  //------------------------------------------------------------------
+  //------------------------------------------------
+  // Output #6: # of trips C -> C with 3 stops max.
+  //------------------------------------------------
+
+  //----------------------------------------------------
+  // Output #7: # of trips A -> C with exactly 4 stops:
+  //----------------------------------------------------
 
   //----------------------------------------------------------
   // Output #8: The length of the shortest route from A to C:
@@ -153,6 +157,10 @@ int main(int argc, char *argv[]) {
   if ((bb = dijkstra(wdg, 1, 1)) < 0) {
     printf("Output #9: NO SUCH ROUTE\n");
   } else printf("Output #9: %d\n", bb);
+
+  //------------------------------------------------------------
+  // Output #10: # of routes C -> C with distance less than 30:
+  //------------------------------------------------------------
 
   printf("\n");
   return 0;
