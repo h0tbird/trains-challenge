@@ -136,9 +136,13 @@ int main(int argc, char *argv[]) {
   // Output #6: # of trips C -> C with 3 stops max.
   //------------------------------------------------
 
+  printf("Output #6: Perhaps using Breadth First Traversal?\n");
+
   //----------------------------------------------------
   // Output #7: # of trips A -> C with exactly 4 stops:
   //----------------------------------------------------
+
+  printf("Output #7: Perhaps using Breadth First Traversal?\n");
 
   //----------------------------------------------------------
   // Output #8: The length of the shortest route from A to C:
@@ -162,6 +166,6 @@ int main(int argc, char *argv[]) {
   // Output #10: # of routes C -> C with distance less than 30:
   //------------------------------------------------------------
 
-  printf("\n");
+  printf("Output #10: Seems complex. I don't know.\n");
   return 0;
 }

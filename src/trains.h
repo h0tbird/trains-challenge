@@ -19,7 +19,7 @@
 // Defines:
 //-----------------------------------------------------------------------------
 
-#define DEBUG
+// #define DEBUG
 
 #define MyDBG(x) do {printf("(%d) %s:%d\n", errno, __FILE__, __LINE__); goto x;} while (0)
 #define MAXLINE 255
