@@ -43,25 +43,58 @@ void wdg_insert(PWDG wdg, int src, int dst, int wgt) {
 }
 
 //-----------------------------------------------------------------------------
-// wdg_clone_node
+// wdg_clone:
 //-----------------------------------------------------------------------------
 
-void wdg_clone_node(PWDG wdg, int src, int dst) {
+void wdg_clone(PWDG wdg, int src) {
 
   PNODE node = wdg->list[src].head;
+  int dst = wdg->count;
+  if(wdg->list[dst].head != NULL) return;
 
-  while (node) {
+  while(node) {
     wdg_insert(wdg, dst, node->dst, node->wgt);
     node = node->next;
   }
 
   for(int i=0; i<wdg->count; ++i) {
-
     node = wdg->list[i].head;
 
-    while (node) {
+    while(node) {
       if(node->dst == src) wdg_insert(wdg, i, dst, node->wgt);
       node = node->next;
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------
+// wdg_unclone:
+//-----------------------------------------------------------------------------
+
+void wdg_unclone(PWDG wdg) {
+
+  int src = wdg->count;
+  PNODE kill, node = wdg->list[src].head;
+  if(node == NULL) return;
+
+  while(node) {
+    kill=node;
+    node = node->next;
+    free(kill);
+  }
+
+  wdg->list[src].head = NULL;
+
+  for(int i=0; i<wdg->count; ++i) {
+    node = wdg->list[i].head;
+
+    while(node) {
+      if(node->dst == src) {
+        kill=node;
+        node = node->next;
+        wdg->list[i].head = node;
+        free(kill);
+      } else node = node->next;
     }
   }
 }

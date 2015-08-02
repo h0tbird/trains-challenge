@@ -37,7 +37,7 @@ PWDG loadData(char *file) {
   // Create a new structure:
   PWDG wdg = wdg_new((int)strlen(nodes));
 
-  // Feed the dirgraph:
+  // Feed the digraph:
   for (i=0; i<strlen(buf)-3; i++) {
     if (buf[i] == ',' || buf[i] == ' ') continue;
     wdg_insert(wdg, buf[i]-65, buf[i+1]-65, buf[i+2]-48);
@@ -56,7 +56,7 @@ PWDG loadData(char *file) {
 // distab
 //-----------------------------------------------------------------------------
 
-int distab (PWDG wdg, int src, int dst) {
+int distab(PWDG wdg, int src, int dst) {
 
   PNODE node = wdg->list[src].head;
 
@@ -132,6 +132,10 @@ int main(int argc, char *argv[]) {
     printf("Output #5: NO SUCH ROUTE\n");
   } else printf("Output #5: %d\n", ae + ed);
 
+  //------------------------------------------------------------------
+  // Output #6: # of trips starting and ending at C with 3 stops max.
+  //------------------------------------------------------------------
+
   //----------------------------------------------------------
   // Output #8: The length of the shortest route from A to C:
   //----------------------------------------------------------
@@ -141,9 +145,9 @@ int main(int argc, char *argv[]) {
     printf("Output #8: NO SUCH ROUTE\n");
   } else printf("Output #8: %d\n", ac);
 
-  //------------------------------------------------------------------
-  // Output #9: The length of the shortest route from B to B: (FAIL!)
-  //------------------------------------------------------------------
+  //----------------------------------------------------------
+  // Output #9: The length of the shortest route from B to B:
+  //----------------------------------------------------------
 
   int bb;
   if ((bb = dijkstra(wdg, 1, 1)) < 0) {
