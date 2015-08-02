@@ -10,8 +10,8 @@
 
 void printArr(int dist[], int n, int src) {
 
-  printf("Vertex   Distance from Source [%d]\n", src);
-  for (int i=0; i<n; ++i) printf("%d \t\t %d\n", i, dist[i]);
+  printf("[DEBUG] Vertex   Distance from Source [%d]\n", src);
+  for (int i=0; i<n; ++i) printf("[DEBUG] %d \t\t %d\n", i, dist[i]);
   printf("\n");
 }
 
@@ -57,6 +57,10 @@ int dijkstra(PWDG graph, int src, int dst) {
       pCrawl = pCrawl->next;
     }
   }
+
+  #ifdef DEBUG
+  printArr(dist, V, src);
+  #endif
 
   return -1;
 }

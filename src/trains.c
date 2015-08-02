@@ -53,55 +53,103 @@ PWDG loadData(char *file) {
 }
 
 //-----------------------------------------------------------------------------
+// distab
+//-----------------------------------------------------------------------------
+
+int distab (PWDG wdg, int src, int dst) {
+
+  PNODE node = wdg->list[src].head;
+
+  while (node) {
+    if (node->dst == dst) return node->wgt;
+    node = node->next;
+  }
+
+  return -1;
+}
+
+//-----------------------------------------------------------------------------
 // Entry point:
 //-----------------------------------------------------------------------------
 
 int main(int argc, char *argv[]) {
 
-  PWDG wdg;
-  int ab, ac, bb, bc, ad, dc, ae, eb, cd, ed;
+  // Usage:
+  if (argc != 2) {
+    printf("Usage: %s <data_file>\n", argv[0]);
+    return 1;
+  }
 
   // Load data from file:
-  if ((wdg = loadData(argv[1])) == NULL) return 1;
+  PWDG wdg; if ((wdg = loadData(argv[1])) == NULL) return 1;
 
   #ifdef DEBUG
   wdg_print(wdg);
   #endif
 
-  // The distance of the route A-B-C:
-  if ((ab = dijkstra(wdg, 0, 1)) < 0 || (bc = dijkstra(wdg, 1, 2)) < 0) {
+  //---------------------------------------------
+  // Output #1: The distance of the route A-B-C:
+  //---------------------------------------------
+
+  int ab,bc;
+  if ((ab = distab(wdg, 0, 1)) < 0 || (bc = distab(wdg, 1, 2)) < 0) {
     printf("Output #1: NO SUCH ROUTE\n");
   } else printf("Output #1: %d\n", ab + bc);
 
-  // The distance of the route A-D:
-  if ((ad = dijkstra(wdg, 0, 3)) < 0) {
+  //-------------------------------------------
+  // Output #2: The distance of the route A-D:
+  //-------------------------------------------
+
+  int ad;
+  if ((ad = distab(wdg, 0, 3)) < 0) {
     printf("Output #2: NO SUCH ROUTE\n");
   } else printf("Output #2: %d\n", ad);
 
-  // The distance of the route A-D-C:
-  if (ad < 0 || (dc = dijkstra(wdg, 3, 2)) < 0) {
+  //---------------------------------------------
+  // Output #3: The distance of the route A-D-C:
+  //---------------------------------------------
+
+  int dc;
+  if (ad < 0 || (dc = distab(wdg, 3, 2)) < 0) {
     printf("Output #3: NO SUCH ROUTE\n");
   } else printf("Output #3: %d\n", ad + dc);
 
-  // The distance of the route A-E-B-C-D:
-  if ((ae = dijkstra(wdg, 0, 4)) < 0 || (eb = dijkstra(wdg, 4, 1)) < 0 || bc < 0 || (cd = dijkstra(wdg, 2, 3)) < 0) {
+  //-------------------------------------------------
+  // Output #4: The distance of the route A-E-B-C-D:
+  //-------------------------------------------------
+
+  int ae,eb,cd;
+  if ((ae = distab(wdg, 0, 4)) < 0 || (eb = distab(wdg, 4, 1)) < 0 || bc < 0 || (cd = distab(wdg, 2, 3)) < 0) {
     printf("Output #4: NO SUCH ROUTE\n");
   } else printf("Output #4: %d\n", ae + eb + bc + cd);
 
-  // The distance of the route A-E-D: (FAIL!)
-  if (ae < 0 || (ed = dijkstra(wdg, 4, 3)) < 0) {
+  //---------------------------------------------
+  // Output #5: The distance of the route A-E-D:
+  //---------------------------------------------
+
+  int ed;
+  if (ae < 0 || (ed = distab(wdg, 4, 3)) < 0) {
     printf("Output #5: NO SUCH ROUTE\n");
   } else printf("Output #5: %d\n", ae + ed);
 
-  // The length of the shortest route from A to C:
+  //----------------------------------------------------------
+  // Output #8: The length of the shortest route from A to C:
+  //----------------------------------------------------------
+
+  int ac;
   if ((ac = dijkstra(wdg, 0, 2)) < 0) {
     printf("Output #8: NO SUCH ROUTE\n");
   } else printf("Output #8: %d\n", ac);
 
-  // The length of the shortest route from B to B: (FAIL!)
+  //------------------------------------------------------------------
+  // Output #9: The length of the shortest route from B to B: (FAIL!)
+  //------------------------------------------------------------------
+
+  int bb;
   if ((bb = dijkstra(wdg, 1, 1)) < 0) {
     printf("Output #9: NO SUCH ROUTE\n");
   } else printf("Output #9: %d\n", bb);
 
+  printf("\n");
   return 0;
 }

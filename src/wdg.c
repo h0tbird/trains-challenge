@@ -50,7 +50,7 @@ void wdg_print(PWDG wdg) {
 
   int i;
 
-  printf("[DEBUB] Non-negative weighted directed graph (WDG):\n");
+  printf("[DEBUB] Dump of the adjacency list:\n");
 
   for(i=0; i<wdg->count; ++i) {
 
