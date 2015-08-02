@@ -44,6 +44,7 @@ PNODE wdg_node(int dst, int wgt);
 PWDG wdg_new(int count);
 void wdg_insert(PWDG wdg, int src, int dst, int wgt);
 void wdg_print(PWDG wdg);
+void wdg_clone_node(PWDG wdg, int src, int offset);
 
 //-----------------------------------------------------------------------------
 // End of include guard:

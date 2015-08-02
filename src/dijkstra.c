@@ -24,6 +24,12 @@ int dijkstra(PWDG graph, int src, int dst) {
   int V = graph->count;
   int dist[V];
 
+  // Clone node:
+  if (src == dst) {
+    wdg_clone_node(graph, src, V);
+    dst = V; V++;
+  }
+
   pMinHeap minHeap = createMinHeap(V);
 
   for (int v=0; v<V; ++v) {
@@ -32,8 +38,6 @@ int dijkstra(PWDG graph, int src, int dst) {
     minHeap->pos[v] = v;
   }
 
-  minHeap->array[src] = newMinHeapNode(src, dist[src]);
-  minHeap->pos[src]   = src;
   dist[src] = 0;
   decreaseKey(minHeap, src, dist[src]);
   minHeap->size = V;
@@ -42,7 +46,10 @@ int dijkstra(PWDG graph, int src, int dst) {
 
     pMinHeapNode minHeapNode = extractMin(minHeap);
     int u = minHeapNode->v;
-    if (u == dst) return dist[u];
+    if (u == dst) {
+      // (TODO) Call Deckard to kill the clone
+      return dist[u];
+    }
     PNODE pCrawl = graph->list[u].head;
 
     while (pCrawl != NULL) {
@@ -62,5 +69,6 @@ int dijkstra(PWDG graph, int src, int dst) {
   printArr(dist, V, src);
   #endif
 
+  // (TODO) Call Deckard to kill the clone
   return -1;
 }

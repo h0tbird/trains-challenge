@@ -26,8 +26,8 @@ PWDG wdg_new(int count) {
   int i;
   PWDG wdg = (PWDG) malloc(sizeof(WDG));
   wdg->count = count;
-  wdg->list = (PLIST) malloc(count * sizeof(LIST));
-  for (i=0; i<count; ++i) wdg->list[i].head = NULL;
+  wdg->list = (PLIST) malloc((count+1) * sizeof(LIST));
+  for (i=0; i<count+1; ++i) wdg->list[i].head = NULL;
   return wdg;
 }
 
@@ -43,6 +43,30 @@ void wdg_insert(PWDG wdg, int src, int dst, int wgt) {
 }
 
 //-----------------------------------------------------------------------------
+// wdg_clone_node
+//-----------------------------------------------------------------------------
+
+void wdg_clone_node(PWDG wdg, int src, int dst) {
+
+  PNODE node = wdg->list[src].head;
+
+  while (node) {
+    wdg_insert(wdg, dst, node->dst, node->wgt);
+    node = node->next;
+  }
+
+  for(int i=0; i<wdg->count; ++i) {
+
+    node = wdg->list[i].head;
+
+    while (node) {
+      if(node->dst == src) wdg_insert(wdg, i, dst, node->wgt);
+      node = node->next;
+    }
+  }
+}
+
+//-----------------------------------------------------------------------------
 // wdg_print:
 //-----------------------------------------------------------------------------
 
@@ -52,7 +76,7 @@ void wdg_print(PWDG wdg) {
 
   printf("[DEBUB] Dump of the adjacency list:\n");
 
-  for(i=0; i<wdg->count; ++i) {
+  for(i=0; i<wdg->count+1; ++i) {
 
     PNODE node = wdg->list[i].head;
     printf("[DEBUG] - Node %d: head", i);
